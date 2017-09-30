@@ -24,5 +24,31 @@ module.exports = {
           error: 'An error has occured trying to fetch the songs.'
         })
       })
+  },
+  show (req, res) {
+    Song.findById(req.params.songId)
+      .then(song => {
+        res.send(song)
+      })
+      .catch(() => {
+        res.status(500).send({
+          error: 'An error has occured trying to fetch the song with id ' + req.params.songId + '.'
+        })
+      })
+  },
+  put (req, res) {
+    Song.update(req.body, {
+      where: {
+        id: req.params.songId
+      }
+    })
+      .then(song => {
+        res.send(req.body)
+      })
+      .catch(() => {
+        res.status(500).send({
+          error: 'An error has occured trying to update the song.'
+        })
+      })
   }
 }

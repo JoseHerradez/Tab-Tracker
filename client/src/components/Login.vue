@@ -8,12 +8,11 @@
         ></v-text-field>
         <v-text-field
           type="password"
-          name="password"
           label="Password"
           v-model="password"
         ></v-text-field>
         <br>
-        <div v-html="error"></div>
+        <v-alert :value="error" transition="scale-transition" error>{{error}}</v-alert>
         <br>
         <v-btn dark @click="login">Login</v-btn>
       </panel>

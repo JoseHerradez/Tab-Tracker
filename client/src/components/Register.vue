@@ -13,7 +13,7 @@
           v-model="password"
         ></v-text-field>
         <br>
-        <div v-html="error"></div>
+        <v-alert class="ml-4" :value="error" transition="scale-transition" error>{{error}}</v-alert>
         <br>
         <v-btn dark @click="register">Register</v-btn>
       </panel>
@@ -35,6 +35,8 @@ export default {
   },
   methods: {
     async register () {
+      this.error = null
+
       try {
         const response = await AuthenticationService.register({
           email: this.email,

@@ -18,7 +18,7 @@
       </panel>
 
       <v-alert class="ml-2" :value="error" transition="scale-transition" error>{{error}}</v-alert>
-      <v-btn flat @click="create">Create Song</v-btn>
+      <v-btn flat @click="save">Save Song</v-btn>
     </v-flex>
   </v-layout>
 </template>
@@ -47,8 +47,12 @@ export default {
   components: {
     Panel
   },
+  async mounted () {
+    const songId = this.$store.state.route.params.songId
+    this.song = (await SongsService.show(songId)).data
+  },
   methods: {
-    async create () {
+    async save () {
       this.error = null
       const areAllFieldsFilledIn = Object
         .keys(this.song)
@@ -60,9 +64,13 @@ export default {
       }
 
       try {
-        await SongsService.post(this.song)
+        const songId = this.$store.state.route.params.songId
+        await SongsService.put(this.song)
         this.$router.push({
-          name: 'songs'
+          name: 'song',
+          params: {
+            songId: songId
+          }
         })
       } catch (error) {
         console.log(error)
